@@ -1,8 +1,8 @@
-package com.example.testfilms.view
+package com.example.testfilms
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.testfilms.R
+import com.example.testfilms.view.FilmsFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

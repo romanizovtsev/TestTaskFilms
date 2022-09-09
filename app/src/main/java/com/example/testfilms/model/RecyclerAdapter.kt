@@ -26,22 +26,11 @@ class RecyclerAdapter(var mContext: Context) : RecyclerView.Adapter<MainViewHold
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        var actorString = ""
-        lateinit var distinctList: List<Actors>
-        val film = items[position]
-        val title = "${items[position].title} (${items[position].releaseYear})"
-        val directorName = items[position].directorName.split(" ")[2] + " " +
-                items[position].directorName.split(" ")[0].get(0) + ". " +
-                items[position].directorName.split(" ")[1].get(0) + "."
-        holder.binding.filmTitle.text = title
+        holder.binding.filmTitle.text = getTitle(items[position])
+        holder.binding.directorName.text = getDirectorName(items[position])
+        holder.binding.filmActors.text = getActorsList(items[position])
         holder.itemView.tag = items[position].title
-        holder.binding.directorName.text = directorName
-        distinctList = items[position].actors.distinctBy { it.actorName }
-        distinctList.forEach {
-            actorString += it.actorName
-            actorString += "\n"
-        }
-        holder.binding.filmActors.text = actorString
+
         holder.itemView.setOnClickListener {
             showDialog(holder.itemView.tag.toString())
         }
@@ -62,6 +51,22 @@ class RecyclerAdapter(var mContext: Context) : RecyclerView.Adapter<MainViewHold
 
     override fun getItemCount(): Int {
         return items.size
+    }
+
+    private fun getTitle(item: Items) = "${item.title} (${item.releaseYear})"
+    private fun getDirectorName(item: Items) = item.directorName.split(" ")[2] + " " +
+            item.directorName.split(" ")[0].get(0) + ". " +
+            item.directorName.split(" ")[1].get(0) + "."
+
+    private fun getActorsList(item: Items): String {
+        var actorString = ""
+        val distinctList: List<Actors>
+        distinctList = item.actors.distinctBy { it.actorName }
+        distinctList.forEach {
+            actorString += it.actorName
+            actorString += "\n"
+        }
+        return actorString
     }
 }
 
